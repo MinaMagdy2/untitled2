@@ -16,6 +16,7 @@ jobs:
           channel: 'stable'
           architecture: x64
 
+      - run: flutter clean
       - run: flutter pub get
 
       # إضافة خطوة لتوليد الأيقونات
