@@ -1,6 +1,7 @@
 name: untitled2
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -16,14 +17,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1 # إضافة الحزمة الخاصة بالأيقونات
   flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
 
-  # إضافة إعدادات الأيقونة
-  flutter_icons:
-    android: true
-    ios: true
-    image_path: "assets/icon/app_icon.png"  # المسار إلى صورة الأيقونة الخاصة بك
+# هذه هي الأماكن الصحيحة لوضع إعدادات flutter_icons:
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"  # تأكد أن المسار صحيح
