@@ -32,9 +32,6 @@ jobs:
             exit 1
           fi
 
-      # 5. Generate launcher icons (ensure flutter_launcher_icons is available)
-      - name: Generate launcher icons
-        run: flutter pub run flutter_launcher_icons
 
       # 6. Update CocoaPods
       - name: Update CocoaPods
