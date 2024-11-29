@@ -26,4 +26,4 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon/app_icon.png"  # تأكد أن المسار صحيح
+  image_path: "assets/icon/appstore.png"  # تأكد أن المسار صحيح
