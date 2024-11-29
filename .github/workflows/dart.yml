@@ -9,40 +9,60 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # 1. Checkout the code
       - uses: actions/checkout@v3
 
+      # 2. Set up Flutter environment
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
 
-      - run: flutter clean
-      - run: flutter pub get
+      # 3. Clean and fetch dependencies
+      - name: Clean and fetch dependencies
+        run: |
+          flutter clean
+          flutter pub get
 
-      # إضافة خطوة لتوليد الأيقونات
-      - run: flutter pub run flutter_launcher_icons:main
-        working-directory: .
+      # 4. Ensure assets folder exists
+      - name: Check assets folder and files
+        run: |
+          if [ ! -f assets/icon/appstore.png ]; then
+            echo "Error: Icon file 'assets/icon/appstore.png' not found."
+            exit 1
+          fi
 
-      - run: pod repo update
+      # 5. Generate launcher icons
+      - name: Generate launcher icons
+        run: flutter pub run flutter_launcher_icons:main
+
+      # 6. Update CocoaPods
+      - name: Update CocoaPods
+        run: pod repo update
         working-directory: ios
 
-      - run: flutter build ios --release --no-codesign
+      # 7. Build iOS app
+      - name: Build iOS App
+        run: flutter build ios --release --no-codesign
 
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
+      # 8. Prepare for IPA creation
+      - name: Create Payload folder
+        run: mkdir -p build/ios/iphoneos/Payload
 
-      - run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
+      - name: Move Runner.app to Payload
+        run: mv build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload
 
-      - name: Zip output
+      # 9. Zip the app into an IPA
+      - name: Create IPA file
         run: zip -qq -r -9 FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
-      - name: Upload binaries to release
+      # 10. Upload the IPA to GitHub release
+      - name: Upload IPA to GitHub Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "This is first release"
+          body: "This is the first release of the app"
