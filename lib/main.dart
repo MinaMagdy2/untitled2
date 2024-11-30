@@ -20,8 +20,12 @@ class MyWebView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: WebView(
-          initialUrl: url,
           javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (controller) async {
+            // مسح التخزين المؤقت قبل تحميل الصفحة
+            await controller.clearCache();
+            controller.loadUrl(url);
+          },
         ),
       ),
     );
